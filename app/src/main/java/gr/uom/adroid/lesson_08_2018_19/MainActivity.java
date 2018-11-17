@@ -49,24 +49,29 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[] projection = {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY};
+                if(READ_CONTACTS_GRANTED) {
 
-                ContentResolver contentResolver = getContentResolver();
-                Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        ContactsContract.Contacts.DISPLAY_NAME_PRIMARY);
+                    String[] projection = {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY};
 
-                if(cursor != null) {
-                    List<String> contacts = new ArrayList();
-                    while (cursor.moveToNext()) {
-                        String contact = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));
-                        contacts.add(contact);
-                        Log.d(TAG, "contact - "+contact);
+                    ContentResolver contentResolver = getContentResolver();
+                    Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,
+                            projection,
+                            null,
+                            null,
+                            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY);
+
+                    if (cursor != null) {
+                        List<String> contacts = new ArrayList();
+                        while (cursor.moveToNext()) {
+                            String contact = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));
+                            contacts.add(contact);
+                            Log.d(TAG, "contact - " + contact);
+                        }
                     }
                 }
-
+                else{
+                    Snackbar.make(view, "You must provide permission to read contacts!", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
     }
