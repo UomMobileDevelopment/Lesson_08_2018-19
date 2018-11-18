@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +28,16 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_READ_CONTACTS = 1;
     private static boolean READ_CONTACTS_GRANTED = false;
 
+    private ListView contactListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        contactListView = (ListView)findViewById(R.id.contactListView);
 
         int hasReadContactPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
         Log.d(TAG, "HAS Read Contact Permissions "+hasReadContactPermission);
@@ -67,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
                             contacts.add(contact);
                             Log.d(TAG, "contact - " + contact);
                         }
+                       ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.contact_details, R.id.txtContact, contacts);
+                        contactListView.setAdapter(adapter);
                     }
                 }
                 else{
