@@ -1,5 +1,5 @@
 # Lesson_09_2019-20
-Using ContentProvider for accessing internal system values such as Contact Info 
+Using ContentProvider for accessing internal system values such as Contact Info and GPS signal
 
 Useful online resources 
 
